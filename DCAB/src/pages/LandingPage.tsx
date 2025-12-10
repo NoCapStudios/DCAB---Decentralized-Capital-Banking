@@ -9,15 +9,13 @@ export function LandingPage() {
       <Header />
       <div className="Landing animated-gradient">
         <section className="hero">
-          {/* <div className="hero-overlay" /> */}
-
           <div className="hero-content">
             <h1>Fund your hustle, share your profit</h1>
             <p className="CatchPhrase">
               Intrest free capital for serious hustler
             </p>
 
-            <NavLink className="hero-btn" to="/home">
+            <NavLink className="hero-btn" to="/get-started">
               Get Started
             </NavLink>
           </div>
