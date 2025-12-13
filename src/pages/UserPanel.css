@@ -1,0 +1,70 @@
+/* UserPanel.css */
+.user-panel {
+    min-height: 100vh;
+    padding: 3rem;
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: #e5e7eb;
+}
+
+.user-panel-header {
+    max-width: 900px;
+    margin: 0 auto 3rem;
+}
+
+.user-panel-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.user-panel-header p {
+    color: #94a3b8;
+}
+
+.user-panel-cards {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+.panel-card {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(12px);
+}
+
+.panel-card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.status {
+    font-weight: 600;
+}
+
+.status.pending {
+    color: #fbbf24;
+}
+
+.amount {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #22c55e;
+}
+
+.user-panel-footer {
+    max-width: 900px;
+    margin: 3rem auto 0;
+}
+
+.panel-link {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.panel-link:hover {
+    text-decoration: underline;
+}

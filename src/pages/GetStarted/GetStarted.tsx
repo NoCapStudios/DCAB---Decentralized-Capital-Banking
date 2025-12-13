@@ -1,17 +1,21 @@
 import { useState } from "react";
+import { NavLink, useNavigate } from "react-router";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import { useForm } from "../../context/FormContext";
 import "./GetStarted.css";
 
 export function GetStarted() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    age: "",
-    requestAmount: "",
-    purpose: "",
-    email: "",
-  });
+  const { formData, setFormData } = useForm();
+  const navigate = useNavigate();
+  // const [formData, setFormData] = useState({
+  //   firstName: "",
+  //   lastName: "",
+  //   age: "25",
+  //   requestAmount: "5,000",
+  //   purpose: "",
+  //   email: "",
+  // });
 
   const fields = [
     {
@@ -30,13 +34,17 @@ export function GetStarted() {
       key: "age",
       label: "Age",
       type: "number",
-      placeholder: "25",
+      placeholder: 25,
+      min: 18,
+      step: 1,
     },
     {
       key: "requestAmount",
       label: "How much would you like to request?",
       type: "number",
       placeholder: "$5,000",
+      min: 100,
+      step: 25,
     },
     {
       key: "purpose",
@@ -52,11 +60,16 @@ export function GetStarted() {
     },
   ];
 
-  const handleChange = (key, value) => {
+  const handleChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleNext = () => {
+    if (fields[currentStep].key === "age" && Number(formData.age) < 18) {
+      alert("Minimum age is 18");
+      return;
+    }
+
     if (currentStep < fields.length - 1) {
       setCurrentStep(currentStep + 1);
     }
@@ -68,13 +81,50 @@ export function GetStarted() {
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: { key: string }) => {
     if (e.key === "Enter" && currentStep < fields.length - 1) {
       handleNext();
     }
   };
 
-  const getFieldStyle = (index) => {
+  const validateForm = () => {
+    const errors: string[] = [];
+
+    if (!formData.firstName.trim()) errors.push("First name is missing");
+    if (!formData.lastName.trim()) errors.push("Last name is missing");
+
+    if (!formData.age) {
+      errors.push("Age is missing");
+    } else if (Number(formData.age) < 18) {
+      errors.push("You must be at least 18 years old");
+    }
+
+    if (!formData.requestAmount) errors.push("Requested amount is missing");
+
+    if (!formData.purpose.trim()) errors.push("Purpose is missing");
+
+    if (!formData.email.trim()) errors.push("Email is missing");
+
+    return errors;
+  };
+
+  // replace fieldChecks with this
+  const fieldChecks = () => {
+    const errors = validateForm();
+
+    if (errors.length > 0) {
+      errors.forEach((err) => alert(err));
+      return;
+    }
+
+    console.log("Form submitted:", {
+      ...formData,
+      age: Number(formData.age),
+      requestAmount: Number(formData.requestAmount),
+    });
+  };
+
+  const getFieldStyle = (index: number) => {
     const diff = index - currentStep;
 
     if (diff === 0) {
@@ -141,6 +191,8 @@ export function GetStarted() {
                   onChange={(e) => handleChange(field.key, e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder={field.placeholder}
+                  min={field.min}
+                  step={field.step}
                   disabled={index !== currentStep}
                   className="field-input"
                 />
@@ -160,12 +212,13 @@ export function GetStarted() {
 
           <div className="nav-hint">
             {currentStep === fields.length - 1 ? (
-              <button
-                onClick={() => console.log("Form submitted:", formData)}
+              <NavLink
+                onClick={() => fieldChecks()}
                 className="submit-button"
+                to="/user-panel"
               >
                 Submit
-              </button>
+              </NavLink>
             ) : (
               <span>Press Enter or ↓</span>
             )}
