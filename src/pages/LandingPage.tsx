@@ -1,7 +1,6 @@
 import { NavLink } from "react-router";
 import { Header } from "../components/common/Header";
-import "./LandingPage.css";
-
+import "../styles/LandingPage.css";
 export function LandingPage() {
   return (
     <>

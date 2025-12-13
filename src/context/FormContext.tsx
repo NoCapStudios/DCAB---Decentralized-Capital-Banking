@@ -7,6 +7,7 @@ type FormData = {
   requestAmount: string;
   purpose: string;
   email: string;
+  [key: string]: string;
 };
 
 const FormContext = createContext<{

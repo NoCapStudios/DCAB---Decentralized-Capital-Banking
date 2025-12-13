@@ -1,21 +1,13 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { useForm } from "../../context/FormContext";
-import "./GetStarted.css";
+import "../../styles/GetStarted.css";
 
 export function GetStarted() {
   const [currentStep, setCurrentStep] = useState(0);
   const { formData, setFormData } = useForm();
   const navigate = useNavigate();
-  // const [formData, setFormData] = useState({
-  //   firstName: "",
-  //   lastName: "",
-  //   age: "25",
-  //   requestAmount: "5,000",
-  //   purpose: "",
-  //   email: "",
-  // });
 
   const fields = [
     {
@@ -34,7 +26,7 @@ export function GetStarted() {
       key: "age",
       label: "Age",
       type: "number",
-      placeholder: 25,
+      placeholder: "25",
       min: 18,
       step: 1,
     },
@@ -44,6 +36,7 @@ export function GetStarted() {
       type: "number",
       placeholder: "$5,000",
       min: 100,
+      max: 10000,
       step: 25,
     },
     {
@@ -62,6 +55,14 @@ export function GetStarted() {
 
   const handleChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = () => {
+    navigate("/user-panel");
+  };
+
+  const formatMoney = (n: number) => {
+    n.toLocaleString("en-US");
   };
 
   const handleNext = () => {
@@ -104,7 +105,7 @@ export function GetStarted() {
     if (!formData.purpose.trim()) errors.push("Purpose is missing");
 
     if (!formData.email.trim()) errors.push("Email is missing");
-
+    handleSubmit();
     return errors;
   };
 
@@ -192,6 +193,7 @@ export function GetStarted() {
                   onKeyPress={handleKeyPress}
                   placeholder={field.placeholder}
                   min={field.min}
+                  max={field.max}
                   step={field.step}
                   disabled={index !== currentStep}
                   className="field-input"
@@ -212,13 +214,9 @@ export function GetStarted() {
 
           <div className="nav-hint">
             {currentStep === fields.length - 1 ? (
-              <NavLink
-                onClick={() => fieldChecks()}
-                className="submit-button"
-                to="/user-panel"
-              >
+              <button onClick={() => fieldChecks()} className="submit-button">
                 Submit
-              </NavLink>
+              </button>
             ) : (
               <span>Press Enter or ↓</span>
             )}

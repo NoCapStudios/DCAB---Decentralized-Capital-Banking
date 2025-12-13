@@ -1,0 +1,145 @@
+.user-panel {
+    min-height: 100vh;
+    min-width: 100vw;
+    padding: 3rem;
+    background: linear-gradient(135deg, #0f172a, #020617);
+    background-attachment: fixed;
+    /* Keeps gradient fixed during scroll */
+    color: #e5e7eb;
+    box-sizing: border-box;
+}
+
+.user-panel-header {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+.user-panel-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.user-panel-header p {
+    color: #94a3b8;
+}
+
+.user-panel-cards {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+
+@media (max-width: 768px) {
+    .user-panel-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+.panel-card {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.panel-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.panel-card li {
+    margin-bottom: 0.5rem;
+    color: #cbd5e1;
+}
+
+.amount {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #22c55e;
+}
+
+/* User info section - full width */
+.user-info-section {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+}
+
+.user-info-card {
+    width: 100%;
+}
+
+.user-info-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.75rem;
+}
+
+.user-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-item strong {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.user-panel-footer {
+    max-width: 1200px;
+    margin: 3rem auto 0;
+    text-align: center;
+}
+
+.panel-link {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+
+.panel-link:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
+
+.status {
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.status.pending {
+    color: #fbbf24;
+    /* Yellow */
+}
+
+.status.accepted {
+    color: #22c55e;
+    /* Green */
+}
+
+.status.rejected {
+    color: #ef4444;
+    /* Red */
+}
