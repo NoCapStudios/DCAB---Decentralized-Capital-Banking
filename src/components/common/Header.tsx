@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 import { HashLink } from "react-router-hash-link";
+import logo from "../../assets/images/FullLogo.svg";
 import "../../styles/Header.css";
 
 export function Header() {
@@ -7,13 +8,13 @@ export function Header() {
     <>
       <nav className="nav">
         <div className="nav-logo">
-          <img src="src/assets/logo.png" className="nav-logo" />
+          <NavLink to="/">
+            {" "}
+            <img src={logo} className="nav-logo" />
+          </NavLink>
         </div>
 
         <ul className="nav-links">
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
           <li>
             <HashLink to="/#install-app">Download App</HashLink>
           </li>

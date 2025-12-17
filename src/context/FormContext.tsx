@@ -1,4 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 type FormData = {
   firstName: string;
@@ -10,20 +16,43 @@ type FormData = {
   [key: string]: string | number;
 };
 
-const FormContext = createContext<{
+type FormContextType = {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
-} | null>(null);
+};
 
-export const FormProvider = ({ children }: { children: React.ReactNode }) => {
-  const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
-    age: 25,
-    requestAmount: 5000,
-    purpose: "",
-    email: "",
+const FormContext = createContext<FormContextType | undefined>(undefined);
+
+export const FormProvider = ({ children }: { children: ReactNode }) => {
+  const [formData, setFormData] = useState<FormData>(() => {
+    const saved = localStorage.getItem("applicationData");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return {
+          firstName: "",
+          lastName: "",
+          age: 26,
+          requestAmount: 1000,
+          purpose: "",
+          email: "",
+        };
+      }
+    }
+    return {
+      firstName: "",
+      lastName: "",
+      age: 26,
+      requestAmount: 1000,
+      purpose: "",
+      email: "",
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem("applicationData", JSON.stringify(formData));
+  }, [formData]);
 
   return (
     <FormContext.Provider value={{ formData, setFormData }}>
@@ -33,7 +62,9 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const useForm = () => {
-  const ctx = useContext(FormContext);
-  if (!ctx) throw new Error("useForm must be used inside FormProvider");
-  return ctx;
+  const context = useContext(FormContext);
+  if (!context) {
+    throw new Error("useForm must be used inside FormProvider");
+  }
+  return context;
 };

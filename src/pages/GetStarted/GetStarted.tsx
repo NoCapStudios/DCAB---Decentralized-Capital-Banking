@@ -13,6 +13,14 @@ export function GetStarted() {
   const { formData, setFormData } = useForm();
   const navigate = useNavigate();
 
+  const MARK_CONFIG = {
+    five: 5,
+    ten: 10,
+    twoFive: 25,
+  };
+
+  const [marks, setMarkerSteps] = useState<number>(MARK_CONFIG.ten);
+
   const fields = [
     {
       key: "firstName",
@@ -158,45 +166,134 @@ export function GetStarted() {
 
                 {field.key === "age" && (
                   <>
-                    <div className="slider-value">{formData.age}</div>
-                    <Slider
-                      value={formData.age}
-                      min={18}
-                      max={100}
-                      step={1}
-                      marks
-                      valueLabelDisplay="auto"
-                      disabled={index !== currentStep}
-                      onChange={(_, value) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          age: value as number,
-                        }))
-                      }
-                    />
+                    <div className="slider-wrapper">
+                      <div className="slider-value">{formData.age}</div>
+                      <Slider
+                        value={formData.age}
+                        min={18}
+                        max={100}
+                        step={1}
+                        valueLabelDisplay="off"
+                        disabled={index !== currentStep}
+                        onChange={(_, value) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            age: value as number,
+                          }))
+                        }
+                        sx={{
+                          width: "100%",
+                          py: 1.5,
+
+                          "& .MuiSlider-track": {
+                            height: 6,
+                            borderRadius: 6,
+                            background:
+                              "linear-gradient(90deg, #4adecfff, #10b981)",
+                            border: "none",
+                          },
+
+                          "& .MuiSlider-rail": {
+                            opacity: 0.3,
+                            background: "linear-gradient(#37ea9aff, #305e49)",
+                          },
+
+                          "& .MuiSlider-thumb": {
+                            width: 32,
+                            height: 16,
+                            borderRadius: 2,
+                            backgroundColor: "#fff",
+                            border: "2px solid #305e49",
+                            transition:
+                              "transform 0.15s ease, box-shadow 0.15s ease",
+                          },
+
+                          "& .MuiSlider-mark": {
+                            width: 19,
+                            height: 19,
+                            borderRadius: "50%",
+                            backgroundColor: "#111",
+                            opacity: 0.25,
+                          },
+
+                          "& .MuiSlider-markActive": {
+                            opacity: 1,
+                          },
+
+                          "&.Mui-disabled": {
+                            opacity: 0.4,
+                          },
+                        }}
+                      />
+                    </div>
                   </>
                 )}
 
                 {field.key === "requestAmount" && (
                   <>
-                    <div className="slider-value">
-                      ${formatMoney(formData.requestAmount)}
+                    <div className="slider-wrapper">
+                      <div className="slider-value">
+                        ${formatMoney(formData.requestAmount)}
+                      </div>
+                      <Slider
+                        value={formData.requestAmount}
+                        min={100}
+                        max={10000}
+                        step={25}
+                        valueLabelDisplay="off"
+                        valueLabelFormat={(v) => `$${formatMoney(v)}`}
+                        disabled={index !== currentStep}
+                        onChange={(_, value) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            requestAmount: value as number,
+                          }))
+                        }
+                        sx={{
+                          width: "100%",
+                          py: 1.5,
+
+                          "& .MuiSlider-track": {
+                            height: 6,
+                            borderRadius: 6,
+                            background:
+                              "linear-gradient(90deg, #4adecfff, #10b981)",
+                            border: "none",
+                          },
+
+                          "& .MuiSlider-rail": {
+                            opacity: 0.3,
+                            background: "linear-gradient(#37ea9aff, #305e49)",
+                          },
+
+                          "& .MuiSlider-thumb": {
+                            width: 32,
+                            height: 16,
+                            borderRadius: 2,
+                            backgroundColor: "#fff",
+                            border: "2px solid #305e49",
+                            transition:
+                              "transform 0.15s ease, box-shadow 0.15s ease",
+                          },
+
+                          "& .MuiSlider-mark": {
+                            width: 19,
+                            height: 19,
+                            borderRadius: "50%",
+                            backgroundColor: "#111",
+                            opacity: 0.25,
+                          },
+
+                          "& .MuiSlider-markActive": {
+                            opacity: 1,
+                          },
+
+                          "&.Mui-disabled": {
+                            opacity: 0.4,
+                          },
+                        }}
+                      />
                     </div>
-                    <Slider
-                      value={formData.requestAmount}
-                      min={100}
-                      max={10000}
-                      step={25}
-                      valueLabelDisplay="auto"
-                      valueLabelFormat={(v) => `$${formatMoney(v)}`}
-                      disabled={index !== currentStep}
-                      onChange={(_, value) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          requestAmount: value as number,
-                        }))
-                      }
-                    />
                   </>
                 )}
 

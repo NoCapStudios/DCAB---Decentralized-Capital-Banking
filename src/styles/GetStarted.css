@@ -17,6 +17,14 @@
     max-width: 40rem;
 }
 
+.slider-wrapper {
+    display: flex;
+    gap: 12px;
+    width: 70%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
 .progress-section {
     margin-bottom: 2rem;
     text-align: center;
