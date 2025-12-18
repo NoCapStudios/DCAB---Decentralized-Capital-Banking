@@ -1,13 +1,15 @@
 import { NavLink } from "react-router";
 import { Header } from "../components/common/Header";
 import { useEffect, useRef, useState } from "react";
+import FlowCapLogo from "../components/common/Logo.tsx";
+import ScrollGraphAnimation from "../components/animations/ScrollingGraphAnimation.tsx";
 import "../styles/LandingPage.css";
 
 export function LandingPage() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
-
   const [displayAmount, setDisplayAmount] = useState(1000);
+
   useEffect(() => {
     const section = sectionRef.current;
     const path = pathRef.current;
@@ -20,44 +22,41 @@ export function LandingPage() {
     const onScroll = () => {
       const rect = section.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-
       const progress = Math.min(Math.max(1 - rect.top / windowHeight, 0), 1);
-
       path.style.strokeDashoffset = `${pathLength * (1 - progress)}`;
 
       const min = 1000;
       const max = 35000;
       setDisplayAmount(Math.floor(min + (max - min) * progress));
     };
+
     window.addEventListener("scroll", onScroll);
     onScroll();
-
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
   return (
     <>
       <title>Get the capital your hustle deserves.</title>
       <Header />
       <div className="Landing animated-gradient">
-        <section className="hero">
+        <section id="hero" className="hero">
           <div className="hero-content">
+            <FlowCapLogo size={200} />
             <h1>Fund your hustle, share your profit</h1>
-            <p>Intrest free capital for serious hustler</p>
-
+            <p>Interest free capital for serious hustlers</p>
             <NavLink className="hero-btn" to="/get-started">
               Get Started
             </NavLink>
           </div>
         </section>
 
-        <section className="growth-section" ref={sectionRef}>
+        <section id="growth" className="growth-section" ref={sectionRef}>
           <div className="growth-content">
             <h1>Your capital, growing</h1>
-
             <div className="money-counter">
               ${displayAmount.toLocaleString()}
             </div>
-
             <svg
               className="stock-graph"
               viewBox="0 0 500 200"
@@ -75,17 +74,116 @@ export function LandingPage() {
           </div>
         </section>
 
+        <section id="analytics">
+          <ScrollGraphAnimation />
+        </section>
+
+        <section id="how-it-works" className="how-it-works">
+          <div className="section-content">
+            <h1>How It Works</h1>
+            <p>Three simple steps to get funded</p>
+            <div className="steps-container">
+              <div className="step">
+                <div className="step-number">1</div>
+                <h3>Apply</h3>
+                <p>Tell us about your hustle and funding needs</p>
+              </div>
+              <div className="step">
+                <div className="step-number">2</div>
+                <h3>Get Approved</h3>
+                <p>We review and approve qualified hustlers</p>
+              </div>
+              <div className="step">
+                <div className="step-number">3</div>
+                <h3>Grow Together</h3>
+                <p>Receive capital and share your success</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="features" className="features">
+          <div className="section-content">
+            <h1>Why FlowCap?</h1>
+            <div className="features-grid">
+              <div className="feature-card">
+                <div className="feature-icon">💰</div>
+                <h3>Zero Interest</h3>
+                <p>No interest charges, just profit sharing</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon">🚀</div>
+                <h3>Fast Approval</h3>
+                <p>Get funded in days, not months</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon">🤝</div>
+                <h3>Fair Partnership</h3>
+                <p>We succeed when you succeed</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon">📈</div>
+                <h3>Growth Support</h3>
+                <p>Resources and mentorship included</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="install-app" className="install-app">
           <div>
             <h1>Download our App</h1>
-            <p>For iOS & Andriod</p>
+            <p>For iOS & Android</p>
+            <div className="app-buttons">
+              <button className="app-btn">
+                <span>📱</span> App Store
+              </button>
+              <button className="app-btn">
+                <span>🤖</span> Google Play
+              </button>
+            </div>
           </div>
         </section>
 
         <section id="team" className="team">
-          <div>
-            <h1>Meet the team</h1>
-            <p>Four man operation</p>
+          <div className="section-content">
+            <h1>Meet the Team</h1>
+            <p>Four person operation building the future of funding</p>
+            <div className="team-grid">
+              <div className="team-member">
+                <div className="member-avatar">👨‍💼</div>
+                <h3>Co-Founder</h3>
+                <p>Vision & Strategy</p>
+              </div>
+              <div className="team-member">
+                <div className="member-avatar">👩‍💻</div>
+                <h3>Tech Lead</h3>
+                <p>Engineering</p>
+              </div>
+              <div className="team-member">
+                <div className="member-avatar">👨‍💼</div>
+                <h3>Operations</h3>
+                <p>Business & Growth</p>
+              </div>
+              <div className="team-member">
+                <div className="member-avatar">👩‍🎨</div>
+                <h3>Design Lead</h3>
+                <p>Product & UX</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="cta" className="cta-section">
+          <div className="cta-content">
+            <h1>Ready to fund your hustle?</h1>
+            <p>
+              Join hundreds of hustlers who've scaled their business with
+              FlowCap
+            </p>
+            <NavLink className="hero-btn" to="/get-started">
+              Get Started Now
+            </NavLink>
           </div>
         </section>
       </div>

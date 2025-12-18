@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
-import { HashLink } from "react-router-hash-link";
-import logo from "../../assets/images/FullLogo.svg";
+import logo from "../../assets/images/FullLogoSVG.svg";
+// import FlowCapLogo from "./Logo.tsx";
 import "../../styles/Header.css";
 
 export function Header() {
@@ -11,13 +11,15 @@ export function Header() {
           <NavLink to="/">
             {" "}
             <img src={logo} className="nav-logo" />
+            {/* <FlowCapLogo size={50} /> */}
           </NavLink>
         </div>
 
         <ul className="nav-links">
-          <li>
-            <HashLink to="/#install-app">Download App</HashLink>
-          </li>
+          <a href="#analytics">Analytics</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#features">Features</a>
+          <a href="#install-app">Download App</a>
           <li>
             <NavLink to="/revenue-tracker">Tracker</NavLink>
           </li>

@@ -131,3 +131,278 @@
 .stock-graph path {
     filter: drop-shadow(0 0 12px rgba(0, 255, 156, 0.4));
 }
+
+
+/* ---------- Section Content Wrapper ---------- */
+.section-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    text-align: center;
+    color: #d6e1f5;
+}
+
+.section-content h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: #929bb0;
+}
+
+.section-content p {
+    font-size: 1.3rem;
+    margin-bottom: 50px;
+    color: #5c656fc8;
+}
+
+/* ---------- How It Works Section ---------- */
+.how-it-works {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.step {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 40px 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 255, 156, 0.2);
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #00ff9c, #067d47);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin: 0 auto 20px;
+}
+
+.step h3 {
+    font-size: 1.5rem;
+    color: #d6e1f5;
+    margin-bottom: 10px;
+}
+
+.step p {
+    font-size: 1rem;
+    color: #8f9eb6;
+    margin: 0;
+}
+
+/* ---------- Features Section ---------- */
+.features {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 40px 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #00ff9c;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    color: #d6e1f5;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #8f9eb6;
+    margin: 0;
+}
+
+/* ---------- Install App Section ---------- */
+.install-app {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.app-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.app-btn {
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #d6e1f5;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.app-btn:hover {
+    background: rgba(0, 255, 156, 0.2);
+    border-color: #00ff9c;
+    transform: scale(1.05);
+}
+
+/* ---------- Team Section ---------- */
+.team {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.team-member {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    border-color: #00ff9c;
+}
+
+.member-avatar {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, rgba(0, 255, 156, 0.2), rgba(6, 125, 71, 0.2));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 20px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.team-member h3 {
+    font-size: 1.3rem;
+    color: #d6e1f5;
+    margin-bottom: 8px;
+}
+
+.team-member p {
+    font-size: 1rem;
+    color: #8f9eb6;
+    margin: 0;
+}
+
+/* ---------- CTA Section ---------- */
+.cta-section {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.cta-content {
+    text-align: center;
+    max-width: 700px;
+    color: #d6e1f5;
+}
+
+.cta-content h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #929bb0;
+}
+
+.cta-content p {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+    color: #8f9eb6;
+}
+
+/* ---------- Responsive Design ---------- */
+@media (max-width: 768px) {
+
+    .section-content h1,
+    .cta-content h1 {
+        font-size: 2rem;
+    }
+
+    .section-content p,
+    .cta-content p {
+        font-size: 1.1rem;
+    }
+
+    .steps-container,
+    .features-grid,
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .app-buttons {
+        flex-direction: column;
+    }
+}
