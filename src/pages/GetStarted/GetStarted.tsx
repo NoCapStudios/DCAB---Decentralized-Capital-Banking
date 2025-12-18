@@ -13,13 +13,13 @@ export function GetStarted() {
   const { formData, setFormData } = useForm();
   const navigate = useNavigate();
 
-  const MARK_CONFIG = {
-    five: 5,
-    ten: 10,
-    twoFive: 25,
-  };
+  // const MARK_CONFIG = {
+  //   five: 5,
+  //   ten: 10,
+  //   twoFive: 25,
+  // };
 
-  const [marks, setMarkerSteps] = useState<number>(MARK_CONFIG.ten);
+  // const [marks, setMarkerSteps] = useState<number>(MARK_CONFIG.ten);
 
   const fields = [
     {
