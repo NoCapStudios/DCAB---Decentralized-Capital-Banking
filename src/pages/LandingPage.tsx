@@ -3,36 +3,68 @@ import { Header } from "../components/common/Header";
 import { useEffect, useRef, useState } from "react";
 import FlowCapLogo from "../components/common/Logo.tsx";
 import ScrollGraphAnimation from "../components/animations/ScrollingGraphAnimation.tsx";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../styles/LandingPage.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function LandingPage() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
-  const [displayAmount, setDisplayAmount] = useState(1000);
+  const counterRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    const path = pathRef.current;
-    if (!section || !path) return;
+    const ctx = gsap.context(() => {
+      if (!pathRef.current || !sectionRef.current) return;
 
-    const pathLength = path.getTotalLength();
-    path.style.strokeDasharray = `${pathLength}`;
-    path.style.strokeDashoffset = `${pathLength}`;
+      const pathLength = pathRef.current.getTotalLength();
+      gsap.set(pathRef.current, {
+        strokeDasharray: pathLength,
+        strokeDashoffset: pathLength,
+      });
 
-    const onScroll = () => {
-      const rect = section.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const progress = Math.min(Math.max(1 - rect.top / windowHeight, 0), 1);
-      path.style.strokeDashoffset = `${pathLength * (1 - progress)}`;
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 20%",
+          end: "bottom 70%",
+          scrub: 1, // Smoothly links animation to scroll position
+          markers: false,
+        },
+      });
 
-      const min = 1000;
-      const max = 35000;
-      setDisplayAmount(Math.floor(min + (max - min) * progress));
-    };
+      // Animate the path drawing
+      tl.to(
+        pathRef.current,
+        {
+          strokeDashoffset: 0,
+          ease: "none",
+        },
+        0
+      );
 
-    window.addEventListener("scroll", onScroll);
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+      // Animate the money counter (Numerical Ticker)
+      const obj = { value: 2000 };
+      tl.to(
+        obj,
+        {
+          value: 35000,
+          duration: 1,
+          ease: "none",
+          onUpdate: () => {
+            if (counterRef.current) {
+              counterRef.current.innerText = `$${Math.floor(
+                obj.value
+              ).toLocaleString()}`;
+            }
+          },
+        },
+        0
+      ); // Start at the same time as the path (index 0)
+    });
+
+    return () => ctx.revert(); // Cleanup
   }, []);
 
   return (
@@ -54,8 +86,8 @@ export function LandingPage() {
         <section id="growth" className="growth-section" ref={sectionRef}>
           <div className="growth-content">
             <h1>Your capital, growing</h1>
-            <div className="money-counter">
-              ${displayAmount.toLocaleString()}
+            <div className="money-counter" ref={counterRef}>
+              $1,000
             </div>
             <svg
               className="stock-graph"

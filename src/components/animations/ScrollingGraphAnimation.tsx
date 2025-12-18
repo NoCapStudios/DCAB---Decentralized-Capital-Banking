@@ -24,10 +24,10 @@ export default function ScrollGraphAnimation() {
           ease: "power2.out",
           scrollTrigger: {
             trigger: graphRef.current,
-            start: "top 10%",
-            end: "top 50%",
+            start: "top 20%",
+            end: "top 80%",
             scrub: 1,
-            markers: true,
+            markers: false,
           },
         }
       );
@@ -53,8 +53,8 @@ export default function ScrollGraphAnimation() {
         stagger: 0.15,
         scrollTrigger: {
           trigger: graphRef.current,
-          start: "top 65%",
-          end: "top 30%",
+          start: "top 25%",
+          end: "top 65%",
           scrub: 1,
         },
       });
