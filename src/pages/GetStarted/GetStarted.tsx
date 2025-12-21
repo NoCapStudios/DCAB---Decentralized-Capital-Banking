@@ -15,12 +15,11 @@ export function GetStarted() {
 
   const fields = [
     {
-      key: "firstName",
-      label: "First name",
-      type: "text",
-      placeholder: "John",
+      key: "Names",
+      label: "First, Last, & Prefered Name",
+      type: "group",
+      placeholders: { first: "John", last: "Doe", prefered: "Johnson" },
     },
-    { key: "lastName", label: "Last name", type: "text", placeholder: "Doe" },
     { key: "age", label: "Age", type: "slider" },
     {
       key: "requestAmount",
@@ -60,11 +59,16 @@ export function GetStarted() {
     if (e.key === "Enter") handleNext();
   };
 
+  const isEmpty = (v: string) => !v.trim();
   const validateForm = () => {
     const errors: string[] = [];
 
-    if (!formData.firstName.trim()) errors.push("First name is missing");
-    if (!formData.lastName.trim()) errors.push("Last name is missing");
+    const { first, last, prefered } = formData.names;
+
+    if (isEmpty(first)) errors.push("First name is missing");
+    if (isEmpty(last)) errors.push("First name is missing");
+    if (isEmpty(prefered)) errors.push("First name is missing");
+
     if (formData.age < 18) errors.push("You must be at least 18");
     if (!formData.requestAmount) errors.push("Requested amount is missing");
     if (!formData.purpose.trim()) errors.push("Purpose is missing");
@@ -289,10 +293,10 @@ export function GetStarted() {
                   </>
                 )}
 
-                {field.type !== "slider" && (
+                {(field.key === "purpose" || field.key === "email") && (
                   <input
                     type={field.type}
-                    value={formData[field.key] as string}
+                    value={formData[field.key]}
                     onChange={(e) =>
                       setFormData((prev) => ({
                         ...prev,
@@ -304,6 +308,54 @@ export function GetStarted() {
                     disabled={index !== currentStep}
                     className="field-input"
                   />
+                )}
+
+                {field.key === "Names" && (
+                  <>
+                    <input
+                      type={field.type}
+                      value={formData.names.first}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          names: { ...prev.names, first: e.target.value },
+                        }))
+                      }
+                      onKeyPress={handleKeyPress}
+                      placeholder={field.placeholders?.first}
+                      disabled={index !== currentStep}
+                      className="field-input"
+                    />
+                    <input
+                      type={field.type}
+                      value={formData.names.last}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          names: { ...prev.names, last: e.target.value },
+                        }))
+                      }
+                      onKeyPress={handleKeyPress}
+                      placeholder={field.placeholders?.last}
+                      disabled={index !== currentStep}
+                      className="field-input"
+                    />
+                    <input
+                      type={field.type}
+                      value={formData.names.prefered}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          names: { ...prev.names, prefered: e.target.value },
+                        }))
+                      }
+                      onKeyPress={handleKeyPress}
+                      placeholder={field.placeholders?.last}
+                      disabled={index !== currentStep}
+                      className="field-input"
+                    />
+                    <div className="slider-wrapper"></div>
+                  </>
                 )}
               </div>
             </div>

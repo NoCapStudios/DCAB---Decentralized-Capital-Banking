@@ -10,7 +10,7 @@
     padding: 0 60px;
     z-index: 1000;
 
-    background: rgba(15, 23, 42, 0.8);
+    background: #0e0f0f;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);

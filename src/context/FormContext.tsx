@@ -7,13 +7,12 @@ import React, {
 } from "react";
 
 type FormData = {
-  firstName: string;
-  lastName: string;
+  names: { first: string; last: string; prefered: string };
   age: number;
   requestAmount: number;
   purpose: string;
   email: string;
-  [key: string]: string | number;
+  [key: string]: string | number | object;
 };
 
 type FormContextType = {
@@ -24,30 +23,31 @@ type FormContextType = {
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
+  const defaultFormData: FormData = {
+    names: { first: "", last: "", prefered: "" },
+    age: 26,
+    requestAmount: 1000,
+    purpose: "",
+    email: "",
+  };
+
   const [formData, setFormData] = useState<FormData>(() => {
     const saved = localStorage.getItem("applicationData");
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return {
-          firstName: "",
-          lastName: "",
-          age: 26,
-          requestAmount: 1000,
-          purpose: "",
-          email: "",
-        };
-      }
+    if (!saved) return defaultFormData;
+
+    try {
+      const parsed = JSON.parse(saved);
+      return {
+        ...defaultFormData,
+        ...parsed,
+        names: {
+          ...defaultFormData,
+          ...parsed.names,
+        },
+      };
+    } catch {
+      return defaultFormData;
     }
-    return {
-      firstName: "",
-      lastName: "",
-      age: 26,
-      requestAmount: 1000,
-      purpose: "",
-      email: "",
-    };
   });
 
   useEffect(() => {

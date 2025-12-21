@@ -90,9 +90,6 @@ export function LandingPage() {
               <NavLink className="primary-btn" to="/get-started">
                 Get Funded
               </NavLink>
-              <NavLink className="secondary-btn" to="/how-it-works">
-                Learn More
-              </NavLink>
             </div>
           </div>
         </section>
@@ -130,7 +127,7 @@ export function LandingPage() {
             <h2>Why FlowCap?</h2>
           </div>
           <div className="bento-grid">
-            <div className="feature-card">
+            <div className="feature-card highlighted-reverse">
               <div className="icon">💰</div>
               <h3>Zero Interest</h3>
               <p>We don't believe in predatory rates. We win when you win.</p>
@@ -143,15 +140,25 @@ export function LandingPage() {
                 advantage.
               </p>
             </div>
-            <div className="feature-card">
+            <div className="feature-card highlighted-reverse">
               <div className="icon">🤝</div>
               <h3>Shared Success</h3>
               <p>Flexible repayments based on your monthly revenue.</p>
             </div>
-            <div className="feature-card">
+            <div className="feature-card highlighted">
               <div className="icon">📈</div>
               <h3>Growth Tools</h3>
               <p>Access our network of mentors and proprietary analytics.</p>
+            </div>
+            <div className="feature-card highlighted-reverse">
+              <div className="icon">📈</div>
+              <h3>Empty</h3>
+              <p>Place feature here.</p>
+            </div>
+            <div className="feature-card highlighted">
+              <div className="icon">📈</div>
+              <h3>Empty</h3>
+              <p>Place feature here.</p>
             </div>
           </div>
         </section>

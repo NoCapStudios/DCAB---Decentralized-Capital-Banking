@@ -1,6 +1,6 @@
 :root {
-    --bg-dark: #0f172a;
-    --bg-accent: #1e293b;
+    --bg-dark: #0e0f0f;
+    --bg-accent: rgba(255, 255, 255, 0.05);
     --primary-emerald: #10b981;
     --primary-glow: rgba(16, 185, 129, 0.3);
     --text-main: #f8fafc;
@@ -18,7 +18,7 @@
 
 .content-wrapper {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 50px auto;
     padding: 0 20px;
 }
 
@@ -126,7 +126,13 @@
 .feature-card.highlighted {
     grid-row: span 1;
     border-color: var(--primary-emerald);
-    background: linear-gradient(to bottom right, var(--bg-accent), #064e3b);
+    background: linear-gradient(to bottom right, var(--bg-accent), #06474e);
+}
+
+.feature-card.highlighted-reverse {
+    grid-row: span 1;
+    border-color: var(--primary-emerald);
+    background: linear-gradient(to bottom right, #064e41, var(--bg-accent));
 }
 
 .feature-card:hover {
