@@ -112,7 +112,6 @@ export function LandingPage() {
       <Header />
 
       <main className="content-wrapper">
-        {/* HERO */}
         <section id="hero" className="hero-section" ref={heroRef}>
           <div className="hero-background">
             <div className="gradient-orb orb-1"></div>
@@ -140,13 +139,11 @@ export function LandingPage() {
             </div>
           </div>
 
-          {/* Scroll indicator */}
           <div className="scroll-indicator">
             <div className="scroll-line"></div>
           </div>
         </section>
 
-        {/* GROWTH */}
         <section id="growth" className="glass-section" ref={sectionRef}>
           <div className="section-header">
             <span className="badge">Real-time Growth</span>
@@ -173,7 +170,6 @@ export function LandingPage() {
           <ScrollGraphAnimation />
         </section>
 
-        {/* FEATURES GRID */}
         <section id="features" className="features-section">
           <div className="section-header">
             <h2>Why FlowCap?</h2>
@@ -215,7 +211,6 @@ export function LandingPage() {
           </div>
         </section>
 
-        {/* TEAM */}
         <section id="team" className="team-section">
           <div className="section-header">
             <span className="badge">The Core Team</span>

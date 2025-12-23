@@ -1,0 +1,101 @@
+:root {
+    --bg-dark: #0e0f0f;
+    --bg-accent: rgba(255, 255, 255, 0.05);
+    --primary-emerald: #10b99dab;
+    --primary-glow: rgba(16, 185, 129, 0.3);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+
+.landing-root {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+}
+
+.docs-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 24px;
+}
+
+.docs-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.docs-content {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.doc-section {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px;
+}
+
+.doc-section-header {
+    height: 48px;
+    margin-bottom: 32px;
+}
+
+.doc-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.status-block {
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    min-height: 120px;
+}
+
+.status-block.accepted {}
+
+.status-block.rejected {}
+
+.status-block.pending {}
+
+.policy-block {
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    min-height: 160px;
+}
+
+/* add to Documents.css */
+
+.docs-toc {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border);
+}
+
+.docs-toc a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.docs-toc a:hover {
+    color: var(--text-main);
+    transform: translateX(4px);
+}
+
+.docs-toc a.active {
+    color: var(--primary-emerald);
+}

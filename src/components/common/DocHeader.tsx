@@ -7,7 +7,7 @@ import "../../styles/Header.css";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-export function Header() {
+export function DocHeader() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,8 +17,8 @@ export function Header() {
   ) => {
     e.preventDefault();
 
-    if (location.pathname !== "/") {
-      navigate("/");
+    if (location.pathname !== "/documents") {
+      navigate("/documents");
       setTimeout(() => {
         gsap.to(window, {
           duration: 1,
@@ -41,23 +41,33 @@ export function Header() {
 
       <ul className="nav-links">
         <li>
-          <a href="#hero" onClick={(e) => handleScroll(e, "#hero")}>
-            Get Started
+          <a href="#our-goals" onClick={(e) => handleScroll(e, "#our-goals")}>
+            Our Goals
           </a>
         </li>
         <li>
           <a href="#analytics" onClick={(e) => handleScroll(e, "#analytics")}>
-            About
+            Honesty & Transparency
           </a>
         </li>
         <li>
-          <a href="#features" onClick={(e) => handleScroll(e, "#features")}>
-            Features
+          <a href="#analytics" onClick={(e) => handleScroll(e, "#analytics")}>
+            Application Standings
           </a>
         </li>
         <li>
           <a href="#team" onClick={(e) => handleScroll(e, "#team")}>
-            Team
+            Policies
+          </a>
+        </li>
+        <li>
+          <a href="#team" onClick={(e) => handleScroll(e, "#team")}>
+            Terms & Conditions
+          </a>
+        </li>
+        <li>
+          <a href="#features" onClick={(e) => handleScroll(e, "#features")}>
+            Application Status
           </a>
         </li>
 
@@ -70,10 +80,10 @@ export function Header() {
           <NavLink to="/revenue-logger">Logger</NavLink>
         </li>
         <li>
-          <NavLink to="/auth" className="auth-link">
-            Sign In
-          </NavLink>
+          <NavLink to="/revenue-logger">User Portal</NavLink>
         </li>
+
+        <div className="nav-divider"></div>
       </ul>
     </nav>
   );

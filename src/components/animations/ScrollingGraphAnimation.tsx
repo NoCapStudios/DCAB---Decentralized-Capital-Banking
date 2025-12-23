@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { NavLink } from "react-router";
 import "./ScrollGraphAnimation.css";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,10 +46,12 @@ export default function ScrollGraphAnimation() {
                 displays both current payment status and all completed
                 transactions and outstanding funds. The company offers all
                 agreements with no surprise fees and no hidden interest rates
-                which provide customers with completely transparent deals they
+                which provide hustlers with completely transparent deals they
                 can depend on.
               </p>
-              <span className="link">Read our security & policies</span>
+              <NavLink to="documents" className="link">
+                Read our security & policies
+              </NavLink>
             </div>
 
             <div className="card inner">
