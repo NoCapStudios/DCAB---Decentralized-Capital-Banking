@@ -1,7 +1,7 @@
 :root {
     --bg-dark: #0e0f0f;
     --bg-accent: rgba(255, 255, 255, 0.05);
-    --primary-emerald: #10b981;
+    --primary-emerald: #10b99dab;
     --primary-glow: rgba(16, 185, 129, 0.3);
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
@@ -126,13 +126,13 @@
 .feature-card.highlighted {
     grid-row: span 1;
     border-color: var(--primary-emerald);
-    background: linear-gradient(to bottom right, var(--bg-accent), #06474e);
+    background: linear-gradient(to bottom right, var(--bg-accent), #06474ebd);
 }
 
 .feature-card.highlighted-reverse {
     grid-row: span 1;
     border-color: var(--primary-emerald);
-    background: linear-gradient(to bottom right, #064e41, var(--bg-accent));
+    background: linear-gradient(to bottom right, #06474ebd, var(--bg-accent));
 }
 
 .feature-card:hover {

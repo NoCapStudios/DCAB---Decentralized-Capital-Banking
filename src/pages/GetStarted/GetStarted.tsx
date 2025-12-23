@@ -350,7 +350,7 @@ export function GetStarted() {
                         }))
                       }
                       onKeyPress={handleKeyPress}
-                      placeholder={field.placeholders?.last}
+                      placeholder={field.placeholders?.prefered}
                       disabled={index !== currentStep}
                       className="field-input"
                     />
