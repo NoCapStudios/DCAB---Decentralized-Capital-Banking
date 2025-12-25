@@ -6,6 +6,7 @@ import { Auth } from "./pages/User/Auth";
 import { Documents } from "./pages/Forms/Documents";
 import { RevenueTracker } from "./pages/RevenueTracker";
 import { RevenueLogger } from "./pages/RevenueLogger";
+import { Wishlist } from "./pages/Wishlist";
 import "./styles/App.css";
 import { FormProvider } from "./context/FormContext";
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="documents" element={<Documents />} />
         <Route path="revenue-tracker" element={<RevenueTracker />} />
         <Route path="revenue-logger" element={<RevenueLogger />} />
+        <Route path="wishlist" element={<Wishlist />} />
       </Routes>
     </FormProvider>
   );
