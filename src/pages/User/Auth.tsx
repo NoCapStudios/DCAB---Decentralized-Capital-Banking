@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import "../../styles/Auth.css";
 import { supabase } from "../../api/supabase";
 
 type AuthMode = "login" | "signup";
+
+const FIRST_LOGIN_FLAG = "flowcap_first_login";
 
 interface AuthFormState {
   email: string;
@@ -14,6 +16,7 @@ interface AuthFormState {
 
 export const Auth: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [mode, setMode] = useState<AuthMode>("login");
   const [form, setForm] = useState<AuthFormState>({
     email: "",
@@ -35,6 +38,28 @@ export const Auth: React.FC = () => {
   const phoneCountries = [
     { code: "1", label: "United States / Canada (+1)", mask: [3, 3, 4] },
   ];
+
+  const markFirstLoginPending = (email: string) => {
+    try {
+      localStorage.setItem(FIRST_LOGIN_FLAG, JSON.stringify({ email, pending: true }));
+    } catch (err) {
+      console.warn("Failed to persist first-login flag", err);
+    }
+  };
+
+  const consumeFirstLoginPending = (email: string) => {
+    try {
+      const raw = localStorage.getItem(FIRST_LOGIN_FLAG);
+      if (!raw) return false;
+      const parsed = JSON.parse(raw) as { email?: string; pending?: boolean };
+      if (!parsed.pending || parsed.email !== email) return false;
+      localStorage.removeItem(FIRST_LOGIN_FLAG);
+      return true;
+    } catch (err) {
+      console.warn("Failed to read first-login flag", err);
+      return false;
+    }
+  };
 
   const formatPhoneDisplay = (digits: string, code: string) => {
     const country = phoneCountries.find((c) => c.code === code) || phoneCountries[0];
@@ -97,12 +122,24 @@ export const Auth: React.FC = () => {
         return;
       }
 
-      setStatus(
-        payload.message ||
-          (mode === "login"
-            ? `Logged in (status ${response.status}).`
-            : `Signup request accepted (status ${response.status}). Check your email to confirm.`)
-      );
+      if (mode === "signup") {
+        markFirstLoginPending(form.email);
+        setStatus(
+          payload.message ||
+            `Signup request accepted (status ${response.status}). Check your email to confirm.`
+        );
+        return;
+      }
+
+      const fromVerifyLink = Boolean(searchParams.get("verified"));
+      const shouldPrompt2FA = consumeFirstLoginPending(form.email);
+      if (shouldPrompt2FA || fromVerifyLink) {
+        navigate("/two-factor", { state: { email: form.email } });
+        return;
+      }
+
+      setStatus(payload.message || `Logged in (status ${response.status}).`);
+      navigate("/user-panel");
     } catch (error) {
       console.error(error);
       setStatus("Network error. Please try again.");
