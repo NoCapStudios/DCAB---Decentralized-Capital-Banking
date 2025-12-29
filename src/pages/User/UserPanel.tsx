@@ -30,7 +30,7 @@ export function UserPanel() {
       <header className="user-panel-header">
         <h1>
           Welcome to Your Dashboard,{" "}
-          {formData.names.prefered || formData.names.first}
+          {formData.names.preferred || formData.names.first}
         </h1>
         <p>Your request has been submitted successfully.</p>
       </header>

@@ -7,12 +7,28 @@ import React, {
 } from "react";
 
 type FormData = {
-  names: { first: string; last: string; prefered: string };
+  names: {
+    first: string;
+    last: string;
+    preferred: string;
+  };
   dob: string;
+
+  email: string;
+  phone: string;
+  governmentId: {
+    type: "ssn" | "passport" | "state_id" | "";
+    number: string;
+  };
+  location: {
+    country: string;
+    state: string;
+    city: string;
+    zipcode: string;
+  };
   requestAmount: number;
   purpose: string;
-  email: string;
-  [key: string]: string | number | object;
+  [key: string]: string | number | object | any;
 };
 
 type FormContextType = {
@@ -26,11 +42,31 @@ const STORAGE_VERSION = 2;
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
   const defaultFormData: FormData = {
-    names: { first: "", last: "", prefered: "" },
+    names: {
+      first: "",
+      last: "",
+      preferred: "",
+    },
+
     dob: "",
+
+    email: "",
+    phone: "",
+
+    governmentId: {
+      type: "",
+      number: "",
+    },
+
+    location: {
+      country: "US",
+      state: "",
+      city: "",
+      zipcode: "",
+    },
+
     requestAmount: 1000,
     purpose: "",
-    email: "",
   };
 
   const [formData, setFormData] = useState<FormData>(() => {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { PartOne } from "../../components/common/PartOne";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import Slider from "@mui/material/Slider";
 import { useForm } from "../../context/FormContext";
@@ -15,12 +16,10 @@ export function GetStarted() {
 
   const fields = [
     {
-      key: "Names",
-      label: "First, Last, & Prefered Name",
-      type: "group",
-      placeholders: { first: "John", last: "Doe", prefered: "Johnson" },
+      key: "PartOne",
+      label: "Personal Information",
+      type: "section",
     },
-    { key: "dob", label: "Date of Birth", type: "date" },
     {
       key: "requestAmount",
       label: "How much would you like to request?",
@@ -31,12 +30,6 @@ export function GetStarted() {
       label: "What's the purpose?",
       type: "text",
       placeholder: "Business expansion",
-    },
-    {
-      key: "email",
-      label: "What's your email?",
-      type: "email",
-      placeholder: "john@example.com",
     },
   ];
 
@@ -87,11 +80,11 @@ export function GetStarted() {
   const validateForm = () => {
     const errors: string[] = [];
 
-    const { first, last, prefered } = formData.names;
+    const { first, last, preferred } = formData.names;
 
     if (isEmpty(first)) errors.push("First name is missing");
     if (isEmpty(last)) errors.push("First name is missing");
-    if (isEmpty(prefered)) errors.push("First name is missing");
+    if (isEmpty(preferred)) errors.push("First name is missing");
 
     if (!formData.dob) errors.push("Date of birth is required");
     if (getAgeFromDob(formData.dob) < MIN_AGE)
@@ -185,35 +178,7 @@ export function GetStarted() {
             >
               <div className="field-card">
                 <label className="field-label">{field.label}</label>
-
-                {field.key === "dob" && (
-                  <input
-                    type="date"
-                    value={formData.dob}
-                    max={new Date().toISOString().split("T")[0]}
-                    onChange={(e) => {
-                      const dob = e.target.value;
-
-                      const age =
-                        new Date().getFullYear() -
-                        new Date(dob).getFullYear() -
-                        (new Date() <
-                        new Date(
-                          new Date(dob).setFullYear(new Date().getFullYear())
-                        )
-                          ? 1
-                          : 0);
-
-                      setFormData((prev) => ({
-                        ...prev,
-                        dob,
-                        age,
-                      }));
-                    }}
-                    disabled={index !== currentStep}
-                    className="field-input"
-                  />
-                )}
+                {field.key === "PartOne" && <PartOne />}
 
                 {field.key === "requestAmount" && (
                   <>
@@ -298,54 +263,6 @@ export function GetStarted() {
                     disabled={index !== currentStep}
                     className="field-input"
                   />
-                )}
-
-                {field.key === "Names" && (
-                  <div className="name-container">
-                    <input
-                      type={field.type}
-                      value={formData.names.first}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          names: { ...prev.names, first: e.target.value },
-                        }))
-                      }
-                      onKeyPress={handleKeyPress}
-                      placeholder={field.placeholders?.first}
-                      disabled={index !== currentStep}
-                      className="field-input first"
-                    />
-                    <input
-                      type={field.type}
-                      value={formData.names.last}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          names: { ...prev.names, last: e.target.value },
-                        }))
-                      }
-                      onKeyPress={handleKeyPress}
-                      placeholder={field.placeholders?.last}
-                      disabled={index !== currentStep}
-                      className="field-input last"
-                    />
-                    <input
-                      type={field.type}
-                      value={formData.names.prefered}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          names: { ...prev.names, prefered: e.target.value },
-                        }))
-                      }
-                      onKeyPress={handleKeyPress}
-                      placeholder={field.placeholders?.prefered}
-                      disabled={index !== currentStep}
-                      className="field-input preferred"
-                    />
-                    <div className="slider-wrapper"></div>
-                  </div>
                 )}
               </div>
             </div>
