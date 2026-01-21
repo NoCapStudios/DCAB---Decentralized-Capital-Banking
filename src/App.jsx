@@ -12,24 +12,27 @@ import { RevenueLogger } from "./pages/RevenueLogger";
 import { Waitlist } from "./pages/Waitlist";
 import "./styles/App.css";
 import { FormProvider } from "./context/FormContext";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <FormProvider>
-      <Routes>
-        <Route index element={<LandingPage />} />
-        <Route path="get-started" element={<GetStarted />} />
-        <Route path="user-panel" element={<UserPanel />} />
-        <Route path="auth" element={<Auth />} />
-        <Route path="two-factor" element={<TwoFactorPrompt />} />
-        <Route path="documents" element={<Documents />} />
-        <Route path="bug-submitted" element={<BugSubmitted />} />
-        <Route path="contact-submitted" element={<ContactSubmitted />} />
-        <Route path="revenue-tracker" element={<RevenueTracker />} />
-        <Route path="revenue-logger" element={<RevenueLogger />} />
-        <Route path="waitlist" element={<Waitlist />} />
-      </Routes>
-    </FormProvider>
+    <AuthProvider>
+      <FormProvider>
+        <Routes>
+          <Route index element={<LandingPage />} />
+          <Route path="get-started" element={<GetStarted />} />
+          <Route path="user-panel" element={<UserPanel />} />
+          <Route path="auth" element={<Auth />} />
+          <Route path="two-factor" element={<TwoFactorPrompt />} />
+          <Route path="documents" element={<Documents />} />
+          <Route path="bug-submitted" element={<BugSubmitted />} />
+          <Route path="contact-submitted" element={<ContactSubmitted />} />
+          <Route path="revenue-tracker" element={<RevenueTracker />} />
+          <Route path="revenue-logger" element={<RevenueLogger />} />
+          <Route path="waitlist" element={<Waitlist />} />
+        </Routes>
+      </FormProvider>
+    </AuthProvider>
   );
 }
 

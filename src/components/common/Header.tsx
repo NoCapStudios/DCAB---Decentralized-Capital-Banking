@@ -1,22 +1,24 @@
 import { NavLink, useNavigate, useLocation } from "react-router";
+import { User, LogOut } from "lucide-react";
 import logo from "../../assets/images/FullLogoSVG.svg";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-// import FlowCapLogo from "./Logo.tsx";
+import { useAuth } from "../../context/AuthContext";
 import "./Header.css";
+// import FlowCapLogo from "./Logo.tsx";
 
 gsap.registerPlugin(ScrollToPlugin);
 
 export function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, signOut, loading } = useAuth();
 
   const handleScroll = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    target: string
+    target: string,
   ) => {
     e.preventDefault();
-
     if (location.pathname !== "/") {
       navigate("/");
       setTimeout(() => {
@@ -30,6 +32,12 @@ export function Header() {
       gsap.to(window, { duration: 1, scrollTo: target, ease: "power3.inOut" });
     }
   };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
   return (
     <nav className="nav">
       <div className="nav-logo">
@@ -38,7 +46,6 @@ export function Header() {
         </NavLink>
         <span>FlowCap</span>
       </div>
-
       <ul className="nav-links">
         <li>
           <a href="#hero" onClick={(e) => handleScroll(e, "#hero")}>
@@ -64,7 +71,7 @@ export function Header() {
         <div className="nav-divider"></div>
 
         <li>
-          <NavLink to="/revenue-tracker">Tracker</NavLink>
+          <NavLink to="/user-panel">Tracker</NavLink>
         </li>
         <li>
           <NavLink to="/revenue-logger">Logger</NavLink>
@@ -72,11 +79,33 @@ export function Header() {
         <li>
           <NavLink to="/waitlist">Waitlist</NavLink>
         </li>
-        <li>
-          <NavLink to="/auth" className="auth-link">
-            Sign In
-          </NavLink>
-        </li>
+
+        {!loading && (
+          <li>
+            {user ? (
+              <div className="user-menu">
+                <button
+                  className="profile-button"
+                  onClick={() => navigate("/user-panel")}
+                >
+                  <User size={20} />
+                  <span>{user.email?.split("@")[0]}</span>
+                </button>
+                <button
+                  className="logout-button"
+                  onClick={handleSignOut}
+                  title="Sign out"
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
+            ) : (
+              <NavLink to="/auth" className="auth-link">
+                Sign In
+              </NavLink>
+            )}
+          </li>
+        )}
       </ul>
     </nav>
   );

@@ -2,10 +2,12 @@ import { NavLink } from "react-router";
 import { useState, useEffect } from "react";
 import { fetchApplication } from "../../api/applications";
 import { useForm } from "../../context/FormContext";
+import { useAuth } from "../../context/AuthContext";
 import "../../styles/UserPanel.css";
 
 export function UserPanel() {
   const { formData } = useForm();
+  const { user } = useAuth();
   const [application, setApplication] = useState<
     "pending" | "rejected" | "accepted"
   >("pending");
@@ -13,20 +15,43 @@ export function UserPanel() {
 
   useEffect(() => {
     async function loadApplication() {
-      const app = await fetchApplication(formData.email);
-      if (app) {
-        setApplication(app.status);
+      if (user?.email) {
+        const app = await fetchApplication(user.email);
+        if (app) {
+          setApplication(app.status);
+        }
       }
       setLoading(false);
     }
     loadApplication();
-  }, [formData.email]);
+  }, [user?.email]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          background:
+            "radial-gradient(circle at top, rgba(16, 185, 129, 0.15), transparent 45%), #0e0f0f",
+          color: "#10b981",
+          fontSize: "1.25rem",
+        }}
+      >
+        Loading your dashboard...
+      </div>
+    );
   }
+
   return (
     <div className="user-panel">
+      <NavLink to="/" className="back-button">
+        <span className="back-arrow">←</span>
+        <span>Back to Home</span>
+      </NavLink>
+
       <header className="user-panel-header">
         <h1>
           Welcome to Your Dashboard,{" "}
@@ -43,28 +68,29 @@ export function UserPanel() {
               application === "pending"
                 ? "pending"
                 : application === "accepted"
-                ? "accepted"
-                : "rejected"
+                  ? "accepted"
+                  : "rejected"
             }`}
           >
             {application === "pending"
               ? "Pending Review"
               : application === "accepted"
-              ? "Accepted"
-              : "Rejected"}
+                ? "Accepted"
+                : "Rejected"}
           </p>
           <NavLink to="/documents" className="panel-link">
             Criteria for applications
           </NavLink>
         </div>
+
         <div className="panel-card">
           <h2>Requested Amount</h2>
           <p className="amount">
             ${Number(formData.requestAmount).toLocaleString("en-US")}
           </p>
-          {/* onClick={() => changeAmount()} */}
           <div className="panel-link">Request Different Amount</div>
         </div>
+
         {application === "pending" ? (
           <div className="panel-card">
             <h2>Next Steps</h2>
@@ -87,7 +113,7 @@ export function UserPanel() {
           <div className="panel-card">
             <h2>Review Submission</h2>
             <ul>
-              <li>Your application has been rejected.</li>
+              <li>Your application has been rejected</li>
               <li>You'll receive an email update about why</li>
               <li>
                 Resubmit your application here if you've entered wrong
@@ -103,20 +129,30 @@ export function UserPanel() {
           <h2>Your Information</h2>
           <div className="user-info-grid">
             <div className="info-item">
-              <strong>Name:</strong> {formData.names.first}
-              {formData.names.last}
+              <strong>Name</strong>
+              <span>
+                {formData.names.first} {formData.names.last}
+              </span>
             </div>
             <div className="info-item">
-              <strong>Age:</strong> {formData.dob}
+              <strong>Date of Birth</strong>
+              <span>{formData.dob}</span>
             </div>
             <div className="info-item">
-              <strong>Requested:</strong> ${formData.requestAmount}
+              <strong>Requested Amount</strong>
+              <span>${formData.requestAmount.toLocaleString()}</span>
             </div>
             <div className="info-item">
-              <strong>Purpose:</strong> {formData.purpose}
+              <strong>Purpose</strong>
+              <span>{formData.purpose}</span>
             </div>
             <div className="info-item">
-              <strong>Email:</strong> {formData.email}
+              <strong>Email</strong>
+              <span>{formData.email}</span>
+            </div>
+            <div className="info-item">
+              <strong>Credit Score</strong>
+              <span>{formData.creditScore}</span>
             </div>
           </div>
         </div>
@@ -124,16 +160,16 @@ export function UserPanel() {
 
       <footer className="user-panel-footer">
         <NavLink to="/" className="panel-link">
-          <span>Start a New Request</span>
+          Start a New Request
         </NavLink>
         <NavLink to="/about-us" className="panel-link">
-          <span>Contact Us</span>
+          About Us
         </NavLink>
         <NavLink to="/contact-us" className="panel-link">
-          <span>Contact Us</span>
+          Contact Us
         </NavLink>
-        <NavLink to="/contact-us" className="panel-link">
-          <span>Submit Bug</span>
+        <NavLink to="/bug-report" className="panel-link">
+          Submit Bug
         </NavLink>
       </footer>
     </div>

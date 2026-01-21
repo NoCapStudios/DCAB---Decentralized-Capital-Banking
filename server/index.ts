@@ -3,7 +3,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { saveApplication, getApplication, getBugReportUser } from "./mongodb.ts";
+import { saveApplication, getApplication, getBugReportUser, getApplicationByUserId } from "./mongodb.ts";
 import { uploadToCloudinary } from "./cloudinary.ts";
 import { supabaseAdmin } from "./supabase.ts";
 
@@ -45,16 +45,6 @@ app.post("/api/upload-bank-statement", async (req, res) => {
       success: false,
       error: error.message || "Failed to upload image"
     })
-  }
-})
-
-app.post("/api/applications", async (req, res) => {
-  try {
-    const result = await saveApplication(req.body);
-    res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false });
   }
 })
 
@@ -125,9 +115,49 @@ app.post("/api/auth/login", async (req, res) => {
   }
 });
 
+// ✅ GET user's application by userId
+app.get("/api/applications/user/:userId", async (req, res) => {
+  try {
+    const application = await getApplicationByUserId(req.params.userId);
+    if (!application) {
+      return res.status(404).json({ success: false, hasApplication: false });
+    }
+    res.json({ success: true, hasApplication: true, application });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+});
+
 app.post("/api/applications", async (req, res) => {
   try {
+    if (!req.body.supabaseUserId) {
+      return res.status(400).json({
+        success: false,
+        error: "supabaseUserId is required"
+      })
+    }
+
+    const existing = await getApplicationByUserId(req.body.supabaseUserId)
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        error: "You have already submitted an application",
+        hasApplication: true,
+      })
+    }
+
     const result = await saveApplication(req.body);
+
+    // Handle duplicate from MongoDB unique index
+    if (!result.success && result.isDuplicate) {
+      return res.status(409).json({
+        success: false,
+        error: "You have already submitted an application",
+        hasApplication: true
+      })
+    }
+
     res.json(result);
   } catch (err) {
     console.error(err);

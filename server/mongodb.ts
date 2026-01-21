@@ -1,8 +1,8 @@
 // server/mongodb.ts
 import { MongoClient } from 'mongodb';
 import "dotenv/config"
+
 const uri = process.env.PROD_MONGODB_URI!;
-// console.log(uri)
 let client: MongoClient | null = null;
 
 async function getClient() {
@@ -10,37 +10,78 @@ async function getClient() {
     client = new MongoClient(uri);
     await client.connect();
     console.log('Connected to MongoDB');
+    await ensureIndexes();
   }
   return client;
 }
 
-export async function saveApplication(formData: any) {
+async function ensureIndexes() {
   try {
-    const client = await getClient();
+    const db = client!.db('dcab');
+    const collection = db.collection('applications');
+
+    await collection.createIndex(
+      { supabaseUserId: 1 },
+      { unique: true, name: 'unique_supabase_user' }
+    );
+
+    console.log('✅ MongoDB indexes created/verified');
+  } catch (error: any) {
+    if (error.code === 11000) {
+      console.log('⚠️  Index already exists (duplicates present - will be enforced on new inserts)');
+    } else {
+      console.error('Error creating indexes:', error);
+    }
+  }
+}
+
+export async function saveApplication(formData: any) {
+  const client = await getClient()
+  try {
     const db = client.db('dcab');
     const collection = db.collection('applications');
 
     const application = {
       ...formData,
+      supabaseUserId: formData.supabaseUserId,
       status: 'pending',
       createdAt: new Date(),
     };
 
     const result = await collection.insertOne(application);
     return { success: true, id: result.insertedId };
+  } catch (error: any) {
+    console.error('MongoDB error:', error);
+
+    if (error.code === 11000) {
+      return {
+        success: false,
+        error: 'Application already exists for this user.',
+        isDuplicate: true
+      }
+    }
+
+    return { success: false, error };
+  }
+}
+
+export async function getApplicationByUserId(supabaseUserId: string) {
+  const client = await getClient()
+  try {
+    const db = client.db("dcab")
+    const collection = db.collection('applications');
+    return await collection.findOne({ supabaseUserId });
   } catch (error) {
     console.error('MongoDB error:', error);
-    return { success: false, error };
+    return null;
   }
 }
 
 export async function getApplication(email: string) {
   try {
-     // traverse through schema db -> collections -> user data.
     const client = await getClient();
     const db = client.db('dcab');
     const collection = db.collection('applications');
-
     const application = await collection.findOne({ email });
     return application;
   } catch (error) {

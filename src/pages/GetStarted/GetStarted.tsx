@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { PartOne } from "../../components/common/PartOne";
 import { PartTwo } from "../../components/common/PartTwo";
@@ -7,6 +7,7 @@ import { PartFour } from "../../components/common/PartFour";
 import { PartFive } from "../../components/common/PartFive";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { useForm } from "../../context/FormContext";
+import { useAuth } from "../../context/AuthContext";
 import SubmissionLoader from "../../components/SubmissionLoader";
 import "../../styles/GetStarted.css";
 import "../../styles/Slider.css";
@@ -18,8 +19,11 @@ export function GetStarted() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [hasExistingApplication, setHasExistingApplication] = useState(false);
+  const [checkingApplication, setCheckingApplication] = useState(true);
 
   const { formData } = useForm();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const fields = [
@@ -65,6 +69,39 @@ export function GetStarted() {
 
     return age;
   };
+
+  useEffect(() => {
+    const checkApplication = async () => {
+      if (!user) {
+        navigate("/auth");
+        return;
+      }
+
+      try {
+        const res = await fetch(
+          `http://localhost:3001/api/application/user/${user.id}`,
+        );
+        const data = await res.json();
+
+        if (data.hasApplication) {
+          setHasExistingApplication(true);
+
+          setTimeout(() => {
+            navigate("/user-panel");
+          }, 1500);
+        } else {
+          setHasExistingApplication(false);
+        }
+      } catch (error) {
+        console.error("Error checking application:", error);
+        setHasExistingApplication(false);
+      } finally {
+        setCheckingApplication(false);
+      }
+    };
+
+    checkApplication();
+  }, [user, navigate]);
 
   const handleNext = () => {
     if (fields[currentStep].key === "dob") {
@@ -118,6 +155,12 @@ export function GetStarted() {
   };
 
   const fieldChecks = async () => {
+    if (!user) {
+      alert("Please log in first");
+      navigate("/auth");
+      return;
+    }
+
     const errors = validateForm();
     if (errors.length) {
       errors.forEach((e) => alert(e));
@@ -130,10 +173,21 @@ export function GetStarted() {
       const res = await fetch("http://localhost:3001/api/applications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          supabaseUserId: user.id,
+          userEmail: user.email,
+        }),
       });
 
       const data = await res.json();
+
+      if (res.status === 409 || data.hasApplication) {
+        setIsSubmitting(false);
+        alert("You have already submitted an application");
+        navigate("/user-panel");
+        return;
+      }
 
       if (!data.success) throw new Error();
 
@@ -147,6 +201,56 @@ export function GetStarted() {
       alert("Failed to submit application");
     }
   };
+
+  if (checkingApplication) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          flexDirection: "column",
+          gap: "1rem",
+          background:
+            "radial-gradient(circle at top, rgba(16, 185, 129, 0.15), transparent 45%), #0e0f0f",
+        }}
+      >
+        <div style={{ color: "#10b981", fontSize: "1.25rem" }}>
+          Checking your application status...
+        </div>
+      </div>
+    );
+  }
+
+  if (hasExistingApplication) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          flexDirection: "column",
+          gap: "1rem",
+          background:
+            "radial-gradient(circle at top, rgba(16, 185, 129, 0.15), transparent 45%), #0e0f0f",
+        }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+            color: "#f8fafc",
+            fontSize: "1.5rem",
+            fontWeight: 600,
+          }}
+        >
+          Application Already Submitted
+        </div>
+        <div style={{ color: "#94a3b8" }}>Redirecting to your dashboard...</div>
+      </div>
+    );
+  }
 
   const getFieldStyle = (index: number): CSSProperties => {
     const diff = index - currentStep;
